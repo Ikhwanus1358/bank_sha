@@ -12,7 +12,7 @@ class TransferRecentUserItem extends StatelessWidget {
     required this.imageUrl,
     required this.name,
     required this.username,
-    required this.isVerivied,
+    this.isVerivied = false,
   }) : super(key: key);
 
   @override
@@ -25,6 +25,64 @@ class TransferRecentUserItem extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: whiteColor,
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 45,
+            height: 45,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage(
+                  imageUrl,
+                ),
+              ),
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                style: blackTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: medium,
+                ),
+              ),
+              const SizedBox(
+                height: 2,
+              ),
+              Text(
+                '@$username',
+                style: greyTextStyle.copyWith(
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          if (isVerivied)
+            Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  size: 14,
+                  color: greenColor,
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  'Verified',
+                  style: greenTextStyle.copyWith(
+                    fontSize: 11,
+                    fontWeight: medium,
+                  ),
+                ),
+              ],
+            )
+        ],
       ),
     );
   }
