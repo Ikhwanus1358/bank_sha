@@ -1,4 +1,5 @@
 import 'package:bank_sha/shared/theme.dart';
+import 'package:bank_sha/ui/widgets/button.dart';
 import 'package:bank_sha/ui/widgets/forms.dart';
 import 'package:bank_sha/ui/widgets/transfer_recent_user_item.dart';
 import 'package:bank_sha/ui/widgets/transfer_result_user_item.dart';
@@ -38,7 +39,17 @@ class TransferPage extends StatelessWidget {
             isShowTitle: false,
           ),
           //buildRecentUsers()
-          buildResult()
+          buildResult(),
+          const SizedBox(
+            height: 274,
+          ),
+          CustomFilldButton(
+            title: 'Continue',
+            onPressed: () {},
+          ),
+          const SizedBox(
+            height: 50,
+          ),
         ],
       ),
     );
@@ -102,12 +113,21 @@ class TransferPage extends StatelessWidget {
             height: 14,
           ),
           const Wrap(
+            spacing: 17,
+            runSpacing: 17,
             children: [
               TransferResultUserItem(
                 imageUrl: 'assets/img_friend1.png',
                 name: 'yoena jie',
                 username: 'yoenna',
                 isVerivied: true,
+              ),
+              TransferResultUserItem(
+                imageUrl: 'assets/img_friend2.png',
+                name: 'yoena ka',
+                username: 'yoenyu',
+                isVerivied: true,
+                isSelected: true,
               ),
             ],
           )

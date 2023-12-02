@@ -6,6 +6,7 @@ class TransferResultUserItem extends StatelessWidget {
   final String name;
   final String username;
   final bool isVerivied;
+  final bool isSelected;
 
   const TransferResultUserItem({
     Key? key,
@@ -13,13 +14,14 @@ class TransferResultUserItem extends StatelessWidget {
     required this.name,
     required this.username,
     this.isVerivied = false,
+    this.isSelected = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 155,
-      height: 171,
+      height: 175,
       padding: const EdgeInsets.symmetric(
         horizontal: 14,
         vertical: 22,
@@ -27,6 +29,10 @@ class TransferResultUserItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: whiteColor,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isSelected ? blueColor : whiteColor,
+          width: 2,
+        ),
       ),
       child: Column(
         children: [
@@ -61,7 +67,7 @@ class TransferResultUserItem extends StatelessWidget {
                 : null,
           ),
           const SizedBox(
-            height: 14,
+            height: 13,
           ),
           Text(
             name,
