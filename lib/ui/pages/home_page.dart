@@ -486,7 +486,7 @@ class HomePage extends StatelessWidget {
 }
 
 class MoreDialog extends StatelessWidget {
-  const MoreDialog({super.key});
+  const MoreDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -516,14 +516,43 @@ class MoreDialog extends StatelessWidget {
               height: 13,
             ),
             Wrap(
+              spacing: 29,
+              runSpacing: 25,
               children: [
                 HomeServicesItem(
-                  iconUrl: 'assets/ic_product_data',
+                  iconUrl: 'assets/ic_product_data.png',
                   title: 'Data',
+                  onTap: () {
+                    Navigator.pushNamed(context, '/data_provider');
+                  },
+                ),
+                HomeServicesItem(
+                  iconUrl: 'assets/ic_product_water.png',
+                  title: 'Water',
+                  onTap: () {},
+                ),
+                HomeServicesItem(
+                  iconUrl: 'assets/ic_product_stream.png',
+                  title: 'Stream',
+                  onTap: () {},
+                ),
+                HomeServicesItem(
+                  iconUrl: 'assets/ic_product_movie.png',
+                  title: 'Movie',
+                  onTap: () {},
+                ),
+                HomeServicesItem(
+                  iconUrl: 'assets/ic_product_food.png',
+                  title: 'Food',
+                  onTap: () {},
+                ),
+                HomeServicesItem(
+                  iconUrl: 'assets/ic_product_travel.png',
+                  title: 'Travel',
                   onTap: () {},
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
