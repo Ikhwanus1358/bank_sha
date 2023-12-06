@@ -1,3 +1,4 @@
+import 'package:bank_sha/shared/shared_metods.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/ui/widgets/button.dart';
 import 'package:flutter/material.dart';
@@ -10,25 +11,32 @@ class PinPage extends StatefulWidget {
 }
 
 class _PinPageState extends State<PinPage> {
-  final TextEditingController pinControler = TextEditingController(text: '');
+  final TextEditingController pinController = TextEditingController(text: '');
 
   addPin(String number) {
-    if (pinControler.text.length < 6) {
+    if (pinController.text.length < 6) {
       setState(() {
-        pinControler.text = pinControler.text + number;
+        pinController.text = pinController.text + number;
       });
     }
 
-    if (pinControler.text == '123123') {
-      Navigator.pop(context, true);
+    if (pinController.text.length == 6) {
+      if (pinController.text == '123123') {
+        Navigator.pop(context, true);
+      } else {
+        showCustomSnackbar(
+          context,
+          'PIN yang anda masukkan salah. Silakan coba lagi.',
+        );
+      }
     }
   }
 
   deletPin() {
-    if (pinControler.text.isNotEmpty) {
+    if (pinController.text.isNotEmpty) {
       setState(() {
-        pinControler.text =
-            pinControler.text.substring(0, pinControler.text.length - 1);
+        pinController.text =
+            pinController.text.substring(0, pinController.text.length - 1);
       });
     }
   }
@@ -58,7 +66,7 @@ class _PinPageState extends State<PinPage> {
               SizedBox(
                 width: 200,
                 child: TextFormField(
-                  controller: pinControler,
+                  controller: pinController,
                   obscureText: true,
                   cursorColor: greenColor,
                   obscuringCharacter: '*',

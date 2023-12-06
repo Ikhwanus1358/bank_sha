@@ -2,7 +2,6 @@ import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/ui/widgets/button.dart';
 import 'package:bank_sha/ui/widgets/forms.dart';
 import 'package:bank_sha/ui/widgets/package_item.dart';
-import 'package:bank_sha/ui/widgets/transfer_result_user_item.dart';
 import 'package:flutter/material.dart';
 
 class DataPackagePage extends StatelessWidget {
@@ -79,8 +78,11 @@ class DataPackagePage extends StatelessWidget {
           ),
           CustomFilldButton(
             title: 'Continue',
-            onPressed: () {
-              Navigator.pushNamed(context, '/data-package');
+            onPressed: () async {
+              if (await Navigator.pushNamed(context, '/pin') == true) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/data-success', (route) => false);
+              }
             },
           ),
           const SizedBox(
