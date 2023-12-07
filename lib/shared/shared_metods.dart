@@ -12,7 +12,7 @@ void showCustomSnackbar(BuildContext context, String message) {
   ).show(context);
 }
 
-String forrmatCurrency(
+String formatCurrency(
   num number, {
   String symbol = 'Rp',
 }) {
