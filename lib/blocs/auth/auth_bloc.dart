@@ -9,11 +9,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<AuthEvent>((event, emit) async {
       if (event is AuthCheckEmail) {
-        emit(AuthLoading());
+        try {
+          emit(AuthLoading());
+          final res = await AuthServices().checkEmail(event.email);
 
-        final res = await AuthServices().checkEmail(event.email);
-      }catch (e) {emit(AuthFailed(e.toString()));}
-    
+          if (res == false) {
+            emit(AuthCheckEmailSuccess());
+          } else {
+            emit(const AuthFailed('Email sudah Terpakai'));
+          }
+        } catch (e) {
+          emit(AuthFailed(e.toString()));
+        }
+      }
     });
   }
 }
