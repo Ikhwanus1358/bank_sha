@@ -96,12 +96,14 @@ class _SignUpSetProfilePageState extends State<SignUpSetProfilePage> {
                               ),
                             ),
                     ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/ic_upload.png',
-                        width: 32,
-                      ),
-                    ),
+                    child: selectedImage != null
+                        ? null
+                        : Center(
+                            child: Image.asset(
+                              'assets/ic_upload.png',
+                              width: 32,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(

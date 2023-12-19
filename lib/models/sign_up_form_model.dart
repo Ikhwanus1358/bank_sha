@@ -30,12 +30,13 @@ class SignUpFormModel {
     String? name,
     String? profilePicture,
     String? ktp,
+    required String pin,
   }) =>
       SignUpFormModel(
         name: name,
         email: email,
         password: password,
-        pin: pin ?? this.pin,
+        pin: pin,
         profilePicture: profilePicture ?? this.profilePicture,
         ktp: ktp ?? this.ktp,
       );
