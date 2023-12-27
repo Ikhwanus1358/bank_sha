@@ -42,7 +42,8 @@ class _SignUpSetKtpePageState extends State<SignUpSetKtpePage> {
           }
 
           if (state is AuthSuccess) {
-            Navigator.pushAndRemoveUntil(context, '/home', (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context, '/home' as Route<Object?>, (route) => false);
           }
         },
         builder: (context, state) {

@@ -39,7 +39,7 @@ class AuthService {
 
         return user;
       } else {
-        return jsonDecode(res.body)['message'];
+        throw jsonDecode(res.body)['message'];
       }
     } catch (e) {
       rethrow;
