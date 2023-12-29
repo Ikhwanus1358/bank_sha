@@ -42,8 +42,8 @@ class _SignUpSetKtpePageState extends State<SignUpSetKtpePage> {
           }
 
           if (state is AuthSuccess) {
-            Navigator.pushAndRemoveUntil(
-                context, '/home' as Route<Object?>, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/home', (route) => false);
           }
         },
         builder: (context, state) {
@@ -139,25 +139,25 @@ class _SignUpSetKtpePageState extends State<SignUpSetKtpePage> {
                     CustomFilldButton(
                       title: 'Continue',
                       onPressed: () {
-                        if (validate()) {
+                        if (selectedImage == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text(
+                                'Gambar tidak boleh kosong',
+                              ),
+                              backgroundColor: redColor,
+                            ),
+                          );
+                        } else {
                           context.read<AuthBloc>().add(
                                 AuthRegister(
                                   widget.data.copyWith(
-                                    ktp: selectedImage == null
-                                        ? null
-                                        : 'data:image/png;base64,' +
-                                            base64Encode(
-                                              File(selectedImage!.path)
-                                                  .readAsBytesSync(),
-                                            ),
+                                    ktp: 'data:image/png;base64,' +
+                                        base64Encode(File(selectedImage!.path)
+                                            .readAsBytesSync()),
                                   ),
                                 ),
                               );
-                        } else {
-                          showCustomSnackbar(
-                            context,
-                            'Gambar tidak boleh kosong',
-                          );
                         }
                       },
                     ),
