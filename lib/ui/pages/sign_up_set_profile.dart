@@ -76,10 +76,7 @@ class _SignUpSetProfilePageState extends State<SignUpSetProfilePage> {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    final image = await selectImage();
-                    setState(() {
-                      selectedImage = image;
-                    });
+                    selectImage();
                   },
                   child: Container(
                     width: 120,
