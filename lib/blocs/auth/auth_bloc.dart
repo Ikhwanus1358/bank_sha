@@ -78,7 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
             emit(AuthLoading());
 
-            await UserServices().updateUser(event.data);
+            await UserService().updateUser(event.data);
 
             emit(AuthSuccess(updateUser));
           }

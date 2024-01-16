@@ -1,12 +1,32 @@
+import 'package:bank_sha/blocs/user/user_bloc.dart';
+import 'package:bank_sha/models/user_model.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/ui/widgets/button.dart';
 import 'package:bank_sha/ui/widgets/forms.dart';
 import 'package:bank_sha/ui/widgets/transfer_recent_user_item.dart';
 import 'package:bank_sha/ui/widgets/transfer_result_user_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TransferPage extends StatelessWidget {
+class TransferPage extends StatefulWidget {
   const TransferPage({Key? key}) : super(key: key);
+
+  @override
+  State<TransferPage> createState() => _TransferPageState();
+}
+
+class _TransferPageState extends State<TransferPage> {
+  final usernameController = TextEditingController(text: '');
+
+  UserModel? selectedUser;
+
+  late UserBloc userBloc;
+
+  @override
+  void initState() {
+    userBloc = context.read<UserBloc>()..add(UserGetRecent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,26 +54,40 @@ class TransferPage extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          const CustomFormField(
+          CustomFormField(
             title: 'by username',
             isShowTitle: false,
-          ),
-          //buildRecentUsers()
-          buildResult(),
-          const SizedBox(
-            height: 274,
-          ),
-          CustomFilldButton(
-            title: 'Continue',
-            onPressed: () {
-              Navigator.pushNamed(context, '/transfer-amount-page');
+            controller: usernameController,
+            onFieldSubmitted: (value) {
+              if (value.isNotEmpty) {
+                userBloc.add(UserGetByUsername(usernameController.text));
+              } else {
+                selectedUser == null;
+                userBloc.add(UserGetRecent());
+              }
+              setState(() {});
             },
           ),
+          usernameController.text.isEmpty ? buildRecentUsers() : buildResult(),
+          //buildRecentUsers(),
+          buildResult(),
           const SizedBox(
             height: 50,
           ),
         ],
       ),
+      floatingActionButton: selectedUser != null
+          ? Container(
+              margin: const EdgeInsets.all(24),
+              child: CustomFilldButton(
+                title: 'Continue',
+                onPressed: () {
+                  Navigator.pushNamed(context, '/transfer-amount-page');
+                },
+              ),
+            )
+          : Container(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -75,21 +109,20 @@ class TransferPage extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          const TransferRecentUserItem(
-            imageUrl: 'assets/img_friend1.png',
-            name: 'yoena jie',
-            username: 'yoenna',
-            isVerivied: true,
-          ),
-          const TransferRecentUserItem(
-            imageUrl: 'assets/img_friend1.png',
-            name: 'yoena jie',
-            username: 'yoenna',
-          ),
-          const TransferRecentUserItem(
-            imageUrl: 'assets/img_friend1.png',
-            name: 'yoena jie',
-            username: 'yoenna',
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is UserSuccess) {
+                return Column(
+                  children: state.users.map((user) {
+                    return TransferRecentUserItem(user: user);
+                  }).toList(),
+                );
+              }
+
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ],
       ),
@@ -105,7 +138,7 @@ class TransferPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Search',
+            'Result',
             style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: semiBold,
@@ -114,24 +147,32 @@ class TransferPage extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          const Wrap(
-            spacing: 17,
-            runSpacing: 17,
-            children: [
-              TransferResultUserItem(
-                imageUrl: 'assets/img_friend1.png',
-                name: 'yoena jie',
-                username: 'yoenna',
-                isVerivied: true,
-              ),
-              TransferResultUserItem(
-                imageUrl: 'assets/img_friend2.png',
-                name: 'yoena ka',
-                username: 'yoenyu',
-                isVerivied: true,
-                isSelected: true,
-              ),
-            ],
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is UserSuccess) {
+                return Wrap(
+                  spacing: 17,
+                  runSpacing: 17,
+                  children: state.users.map((user) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedUser = user;
+                        });
+                      },
+                      child: TransferResultUserItem(
+                        user: user,
+                        isSelected: user.id == selectedUser?.id,
+                      ),
+                    );
+                  }).toList(),
+                );
+              }
+
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ],
       ),
