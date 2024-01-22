@@ -243,10 +243,10 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                   title: 'Cekout Now',
                   onPressed: () async {
                     if (await Navigator.pushNamed(context, '/pin') == true) {
-                      final AuthState = context.read<AuthBloc>().state;
+                      final authState = context.read<AuthBloc>().state;
                       String pin = '';
-                      if (AuthState is AuthSuccess) {
-                        pin = AuthState.user.pin!;
+                      if (authState is AuthSuccess) {
+                        pin = authState.user.pin!;
                       }
                       context.read<TopupBloc>().add(
                             TopupPost(
