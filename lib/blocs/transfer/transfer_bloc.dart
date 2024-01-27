@@ -13,7 +13,7 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
         try {
           emit(TransferLoading());
 
-          await TransactionService().Transfer(event.data);
+          await TransactionService().transfer(event.data);
 
           emit(TransferSuccess());
         } catch (e) {

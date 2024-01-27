@@ -1,7 +1,6 @@
 import 'package:bank_sha/blocs/auth/auth_bloc.dart';
 import 'package:bank_sha/blocs/topup/topup_bloc.dart';
 import 'package:bank_sha/models/topup_form_model.dart';
-import 'package:bank_sha/shared/shared_metods.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/ui/widgets/button.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +54,7 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
     });
   }
 
-  deletAmount() {
+  deleteAmount() {
     if (amountController.text.isNotEmpty) {
       setState(() {
         amountController.text = amountController.text
@@ -75,14 +74,8 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
         create: (context) => TopupBloc(),
         child: BlocConsumer<TopupBloc, TopupState>(
           listener: (context, state) async {
-            if (state is TopupFailed) {
-              showCustomSnackbar(context, state.e);
-            }
-
             if (state is TopupSuccess) {
-              // ignore: deprecated_member_use
-              await launch(state.redirectUrl);
-
+              launch(state.redirectUrl);
               context.read<AuthBloc>().add(
                     AuthUpdateBalance(
                       int.parse(
@@ -90,9 +83,7 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                       ),
                     ),
                   );
-
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/topup-success', (route) => false);
+              Navigator.pushNamed(context, '/topup-success');
             }
           },
           builder: (context, state) {
@@ -121,7 +112,7 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                     width: 200,
                     child: TextFormField(
                       controller: amountController,
-                      cursorColor: greenColor,
+                      cursorColor: greyColor,
                       enabled: false,
                       style: whiteTextStyle.copyWith(
                         fontSize: 36,
@@ -132,7 +123,7 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                           'Rp',
                           style: whiteTextStyle.copyWith(
                             fontSize: 36,
-                            fontWeight: semiBold,
+                            fontWeight: medium,
                           ),
                         ),
                         disabledBorder: UnderlineInputBorder(
@@ -217,7 +208,7 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        deletAmount();
+                        deleteAmount();
                       },
                       child: Container(
                         width: 60,
@@ -233,7 +224,7 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -251,9 +242,10 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                       context.read<TopupBloc>().add(
                             TopupPost(
                               widget.data.copyWith(
-                                  pin: pin,
-                                  amount: amountController.text
-                                      .replaceAll('.', '')),
+                                pin: pin,
+                                amount:
+                                    amountController.text.replaceAll('.', ''),
+                              ),
                             ),
                           );
                     }

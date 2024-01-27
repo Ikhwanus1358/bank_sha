@@ -138,10 +138,8 @@ class _SignUpSetProfilePageState extends State<SignUpSetProfilePage> {
                               profilePicture: selectedImage == null
                                   ? null
                                   : 'data:image/png;base64,' +
-                                      base64Encode(
-                                        File(selectedImage!.path)
-                                            .readAsBytesSync(),
-                                      ),
+                                      base64Encode(File(selectedImage!.path)
+                                          .readAsBytesSync()),
                             ),
                           ),
                         ),

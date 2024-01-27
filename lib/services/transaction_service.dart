@@ -31,7 +31,7 @@ class TransactionService {
     }
   }
 
-  Future<void> Transfer(TransferFormModel data) async {
+  Future<void> transfer(TransferFormModel data) async {
     try {
       final token = await AuthService().getToken();
 

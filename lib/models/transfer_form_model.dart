@@ -1,28 +1,28 @@
 class TransferFormModel {
   final String? amount;
   final String? pin;
-  final String? SendTo;
+  final String? sendTo;
 
   TransferFormModel({
     this.amount,
     this.pin,
-    this.SendTo,
+    this.sendTo,
   });
 
   TransferFormModel copyWith({
     String? amount,
     String? pin,
-    String? SendTo,
+    String? sendTo,
   }) =>
       TransferFormModel(
         amount: amount ?? this.amount,
         pin: pin ?? this.pin,
-        SendTo: SendTo ?? this.SendTo,
+        sendTo: sendTo ?? this.sendTo,
       );
 
   Map<String, dynamic> toJson() => {
         'amount': amount,
         'pin': pin,
-        'send_to': SendTo,
+        'send_to': sendTo,
       };
 }
