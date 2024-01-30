@@ -80,15 +80,16 @@ class _TransferAmountPageState extends State<TransferAmountPage> {
               showCustomSnackbar(context, state.e);
             }
 
-            context.read<AuthBloc>().add(
-                  AuthUpdateBalance(
-                    int.parse(
-                          amountController.text.replaceAll('.', ''),
-                        ) *
-                        -1,
-                  ),
-                );
             if (state is TransferSuccess) {
+              context.read<AuthBloc>().add(
+                    AuthUpdateBalance(
+                      int.parse(
+                            amountController.text.replaceAll('.', ''),
+                          ) *
+                          -1,
+                    ),
+                  );
+
               Navigator.pushNamedAndRemoveUntil(
                   context, '/transfer-success', (route) => false);
             }
