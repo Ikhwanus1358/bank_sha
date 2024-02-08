@@ -13,9 +13,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         try {
           emit(TransactionLoading());
 
-          final transaction = await TransactionService().getTransactions();
+          final transactions = await TransactionService().getTransactions();
 
-          emit(TransactionSuccess(transaction));
+          emit(TransactionSuccess(transactions));
         } catch (e) {
           emit(TransactionFailed(e.toString()));
         }
